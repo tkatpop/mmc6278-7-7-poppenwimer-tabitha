@@ -61,10 +61,65 @@ var questionsArr = [
     }
 ]
 
+//Start Button
 var quiz = document.getElementById('quiz');
 var quizBtn = document.createElement('button');
-var btnText = document.createTextNode('Start Quiz');
+var btnText = document.createTextNode('Start Quiz!');
 quizBtn.appendChild(btnText);
 quizBtn.setAttribute('id', 'start-quiz');
 quiz.appendChild(quizBtn);
+
+//Start Button Clicked
+quizBtn.onclick = function(e){
+
+    //Remove Start Button
+
+    //Create Score Variable
+    var currentScore = 0
+
+    //*******Run through all questions *******/
+
+
+
+    //******* Create Question P and Answer Buttons *******/
+        //Question P
+        var quizQuestion = document.createElement('p');
+        var questionText = document.createTextNode(questionsArr[0].question);
+        quizQuestion.appendChild(questionText);
+        quiz.appendChild(quizQuestion);
+
+        //Button Div
+        var optionsDiv = document.createElement('div');
+        quiz.appendChild(optionsDiv);
+
+        // //Buttons Under Div
+        for(var i = 0; i < questionsArr[0].options.length; i++){
+            var oBtn = document.createElement('button');
+            oBtn.textContent = questionsArr[0].options[i];
+            optionsDiv.appendChild(oBtn);
+        }
+
+    //Timer//
+    var timerEl = document.createElement('p');
+    var timerText = document.createTextNode('30');
+    timerEl.appendChild(timerText)
+    quiz.appendChild(timerEl);
+    
+    var intervalId = setInterval(function(){
+        timerEl.textContent = Number(timerEl.textContent) - 1
+        if(timerEl.textContent === '0'){
+            clearInterval(intervalId)
+        }
+    }, 1000)
+
+
+    //Onclick Options Button
+    optionsDiv.onclick = function(g){
+        //How to extract text from button
+        if(g.target.textContent == questionsArr[0].answer){
+            currentScore ++
+        }
+
+    }
+}
 
