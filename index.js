@@ -145,7 +145,6 @@ quizBtn.onclick = function(e){
                     //Check if answer is correct
                     if(g.target.textContent == questionsArr[currentQ - 1].answer){
                         currentScore ++
-                        console.log(currentScore)
                     }
                     
                     //Remove previous question
@@ -166,7 +165,7 @@ quizBtn.onclick = function(e){
 
                 //Display Previous Score//
                 // var scoreEl = document.createElement('p');
-                var scoreText = document.createTextNode(currentScore +'%');
+                var scoreText = document.createTextNode('Previous Score: '+ currentScore +'%');
                 scoreEl.appendChild(scoreText)
                 quiz.appendChild(scoreEl)
 
@@ -177,6 +176,10 @@ quizBtn.onclick = function(e){
                 quizBtn.setAttribute('id', 'start-quiz');
                 quiz.appendChild(quizBtn);
                 // quizBtn.style.display = 'block'
+
+                //Local Storage Score//
+                localStorage.setItem("previous-score", scoreText)
+        
                 
             
         }
