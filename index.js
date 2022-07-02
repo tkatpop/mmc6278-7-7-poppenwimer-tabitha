@@ -61,6 +61,10 @@ var questionsArr = [
     }
 ]
 
+//Current score
+var currentScore = 0
+var scoreEl = document.createElement('p');
+
 //Start Button
 var quiz = document.getElementById('quiz');
 var quizBtn = document.createElement('button');
@@ -74,6 +78,7 @@ quizBtn.onclick = function(e){
 
     //Remove Start Button
     quiz.removeChild(quizBtn);
+    // quizBtn.style.display = 'none'
 
     //Create Score Variable
     var currentScore = 0
@@ -83,150 +88,98 @@ quizBtn.onclick = function(e){
 
     displayQuestion(currentQ)
 
-    // //*******Run through all questions *******/
-    // for(var Q = 0; Q < questionsArr.length; Q++){
-
-    //     //******* Create Question P and Answer Buttons *******/
-    //         //Question P
-    //         var quizQuestion = document.createElement('p');
-    //         var questionText = document.createTextNode(questionsArr[Q].question);
-    //         quizQuestion.appendChild(questionText);
-    //         quiz.appendChild(quizQuestion);
-
-    //          //Button Div
-    //         var optionsDiv = document.createElement('div');
-    //         quiz.appendChild(optionsDiv);
-
-    //          //Buttons Under Div
-    //         for(var i = 0; i < questionsArr[Q].options.length; i++){
-    //             var oBtn = document.createElement('button');
-    //             oBtn.textContent = questionsArr[Q].options[i];
-    //             optionsDiv.appendChild(oBtn);
-    //         }
-
-    //     //******Timer *****/
-    //         //Timer Element
-    //         var timerEl = document.createElement('p');
-    //         var timerText = document.createTextNode('30');
-    //         timerEl.appendChild(timerText)
-    //         quiz.appendChild(timerEl);
-
-    //         //Counts down Timer
-    //         var intervalId = setInterval(function(){
-    //             timerEl.textContent = Number(timerEl.textContent) - 1
-    //             if(timerEl.textContent === '0'){
-    //                 clearInterval(intervalId)
-    //             }
-    //         }, 1000)
-
-
-
-    // }
-
-
-    // //******* Create Question P and Answer Buttons *******/
-    //     //Question P
-    //     var quizQuestion = document.createElement('p');
-    //     var questionText = document.createTextNode(questionsArr[0].question);
-    //     quizQuestion.appendChild(questionText);
-    //     quiz.appendChild(quizQuestion);
-
-    //     //Button Div
-    //     var optionsDiv = document.createElement('div');
-    //     quiz.appendChild(optionsDiv);
-
-    //     // //Buttons Under Div
-    //     for(var i = 0; i < questionsArr[0].options.length; i++){
-    //         var oBtn = document.createElement('button');
-    //         oBtn.textContent = questionsArr[0].options[i];
-    //         optionsDiv.appendChild(oBtn);
-    //     }
-
-    // //******Timer *****/
-    //     //Timer Element
-    //     var timerEl = document.createElement('p');
-    //     var timerText = document.createTextNode('30');
-    //     timerEl.appendChild(timerText)
-    //     quiz.appendChild(timerEl);
-        
-    //     //Counts down Timer
-    //     var intervalId = setInterval(function(){
-    //         timerEl.textContent = Number(timerEl.textContent) - 1
-    //         if(timerEl.textContent === '0'){
-    //             clearInterval(intervalId)
-    //         }
-    //     }, 1000)
-
     function displayQuestion(currentQ) {
-        //******* Create Question P and Answer Buttons *******/
-            //Question P
-            var quizQuestion = document.createElement('p');
-            var questionText = document.createTextNode(questionsArr[currentQ].question);
-            quizQuestion.appendChild(questionText);
-            quiz.appendChild(quizQuestion);
-    
-            //Button Div
-            var optionsDiv = document.createElement('div');
-            quiz.appendChild(optionsDiv);
-    
-            // //Buttons Under Div
-            for(var i = 0; i < questionsArr[currentQ].options.length; i++){
-                var oBtn = document.createElement('button');
-                oBtn.textContent = questionsArr[currentQ].options[i];
-                optionsDiv.appendChild(oBtn);
-            }
-    
-            //Update Current Question 
-            currentQ ++
-    
 
-            //******Timer *****/
-                //Timer Element
-                var timerEl = document.createElement('p');
-                var timerText = document.createTextNode('30');
-                timerEl.appendChild(timerText)
-                quiz.appendChild(timerEl);
-                
-                //Counts down Timer
-                var intervalId = setInterval(function(){
-                    timerEl.textContent = Number(timerEl.textContent) - 1
+        if(currentQ < questionsArr.length){
 
-                    //Clear interval
-                    if(timerEl.textContent === '0'){
-                    clearInterval(intervalId)
+            //******* Create Question P and Answer Buttons *******/
+                //Question P
+                var quizQuestion = document.createElement('p');
+                var questionText = document.createTextNode(questionsArr[currentQ].question);
+                quizQuestion.appendChild(questionText);
+                quiz.appendChild(quizQuestion);
+        
+                //Button Div
+                var optionsDiv = document.createElement('div');
+                quiz.appendChild(optionsDiv);
+        
+                // //Buttons Under Div
+                for(var i = 0; i < questionsArr[currentQ].options.length; i++){
+                    var oBtn = document.createElement('button');
+                    oBtn.textContent = questionsArr[currentQ].options[i];
+                    optionsDiv.appendChild(oBtn);
+                }
+        
+                //Update Current Question 
+                currentQ ++
+        
+
+                //******Timer *****/
+                    //Timer Element
+                    var timerEl = document.createElement('p');
+                    var timerText = document.createTextNode('30');
+                    timerEl.appendChild(timerText)
+                    quiz.appendChild(timerEl);
+                    
+                    //Counts down Timer
+                    var intervalId = setInterval(function(){
+                        timerEl.textContent = Number(timerEl.textContent) - 1
+
+                        //Clear interval
+                        if(timerEl.textContent === '0'){
+                        clearInterval(intervalId)
+                        quiz.removeChild(quizQuestion)
+                        quiz.removeChild(optionsDiv)
+                        quiz.removeChild(timerEl)
+                        
+
+                        //Show next question
+                        displayQuestion(currentQ)
+                        }
+
+                    }, 1000)
+
+                //******END OF QUESTION *****/
+                    //******BUTTON CLICK END *****/
+                    optionsDiv.onclick = function(g){
+                    //Check if answer is correct
+                    if(g.target.textContent == questionsArr[currentQ - 1].answer){
+                        currentScore ++
+                        console.log(currentScore)
+                    }
+                    
+                    //Remove previous question
                     quiz.removeChild(quizQuestion)
                     quiz.removeChild(optionsDiv)
                     quiz.removeChild(timerEl)
 
                     //Show next question
                     displayQuestion(currentQ)
+
+                    //End timer
+                    clearInterval(intervalId)
                     }
+        }else{
+            //*********END OF QUIZ*******/
+                //Calculate Score//
+                currentScore = Math.round((currentScore/questionsArr.length) * 100)
 
-                }, 1000)
+                //Display Previous Score//
+                // var scoreEl = document.createElement('p');
+                var scoreText = document.createTextNode(currentScore +'%');
+                scoreEl.appendChild(scoreText)
+                quiz.appendChild(scoreEl)
 
-            //******END OF QUESTION *****/
-                //******BUTTON CLICK END *****/
-                optionsDiv.onclick = function(g){
-                //Check if answer is correct
-                if(g.target.textContent == questionsArr[0].answer){
-                    currentScore ++
-                }
+                //Display Start Quiz Button//
+                var quizBtn = document.createElement('button');
+                var btnText = document.createTextNode('Start Quiz!');
+                quizBtn.appendChild(btnText);
+                quizBtn.setAttribute('id', 'start-quiz');
+                quiz.appendChild(quizBtn);
+                // quizBtn.style.display = 'block'
                 
-                //Remove previous question
-                quiz.removeChild(quizQuestion)
-                quiz.removeChild(optionsDiv)
-                quiz.removeChild(timerEl)
-
-                //Show next question
-                displayQuestion(currentQ)
-                }
-
-
-
+            
         }
-
-
-
-
+    }
 }
 
