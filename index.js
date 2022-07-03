@@ -65,6 +65,9 @@ var questionsArr = [
 var currentScore = 0
 var scoreEl = document.createElement('p');
 
+//Retrieving Previous Score from Local Storage
+var prevScore = localStorage.getItem('previous-score');
+
 //Start Button
 var quiz = document.getElementById('quiz');
 var quizBtn = document.createElement('button');
@@ -73,8 +76,9 @@ quizBtn.appendChild(btnText);
 quizBtn.setAttribute('id', 'start-quiz');
 quiz.appendChild(quizBtn);
 
+quizBtn.onclick = function (){myfunction()};
 //Start Button Clicked
-quizBtn.onclick = function(e){
+function myfunction() {
 
     //Remove Start Button
     quiz.removeChild(quizBtn);
@@ -164,7 +168,7 @@ quizBtn.onclick = function(e){
                 currentScore = Math.round((currentScore/questionsArr.length) * 100)
 
                 //Display Previous Score//
-                // var scoreEl = document.createElement('p');
+                var scoreEl = document.createElement('p');
                 var scoreText = document.createTextNode('Previous Score: '+ currentScore +'%');
                 scoreEl.appendChild(scoreText)
                 quiz.appendChild(scoreEl)
@@ -178,11 +182,10 @@ quizBtn.onclick = function(e){
                 // quizBtn.style.display = 'block'
 
                 //Local Storage Score//
-                localStorage.setItem("previous-score", scoreText)
-        
-                
+                localStorage.setItem("previous-score", scoreEl.textContent)              
             
         }
     }
 }
+
 
