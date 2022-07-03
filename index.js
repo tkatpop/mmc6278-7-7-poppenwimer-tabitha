@@ -65,9 +65,6 @@ var questionsArr = [
 var currentScore = 0
 var scoreEl = document.createElement('p');
 
-//Retrieving Previous Score from Local Storage
-var prevScore = localStorage.getItem('previous-score');
-
 //Start Button
 var quiz = document.getElementById('quiz');
 var quizBtn = document.createElement('button');
@@ -76,13 +73,31 @@ quizBtn.appendChild(btnText);
 quizBtn.setAttribute('id', 'start-quiz');
 quiz.appendChild(quizBtn);
 
-quizBtn.onclick = function (){myfunction()};
+//Retrieving Previous Score from Local Storage
+var prevScore = localStorage.getItem('previous-score');
+
+//If PrevScore is not Null then display
+if(prevScore != null){
+    var scoreEl = document.createElement('p');
+    var prevscoreText = document.createTextNode(prevScore);
+    scoreEl.appendChild(prevscoreText)
+    quiz.appendChild(scoreEl)
+}
+
+
+ 
 //Start Button Clicked
-function myfunction() {
+quizBtn.onclick = function myfunction() {
 
     //Remove Start Button
     quiz.removeChild(quizBtn);
     // quizBtn.style.display = 'none'
+
+    //Remove Previous Score Text
+    if(prevScore != null){
+        quiz.removeChild(scoreEl);
+        // prevScore.style.display = 'none'
+    };
 
     //Create Score Variable
     var currentScore = 0
@@ -180,12 +195,16 @@ function myfunction() {
                 quizBtn.setAttribute('id', 'start-quiz');
                 quiz.appendChild(quizBtn);
                 // quizBtn.style.display = 'block'
+               
 
                 //Local Storage Score//
-                localStorage.setItem("previous-score", scoreEl.textContent)              
+                localStorage.setItem("previous-score", scoreEl.textContent)            
             
         }
     }
 }
+
+
+
 
 
